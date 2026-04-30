@@ -17,7 +17,7 @@ services:
       - app-network
 
   backend:
-    build: ./backend
+    image: ghcr.io/cloudstar2077/conduit-backend:latest
     container_name: django_backend
     restart: on-failure
     env_file:
@@ -29,10 +29,7 @@ services:
       - app-network
 
   frontend:
-    build:
-      context: ./frontend
-      args:
-        API_BASE_URL: ${API_BASE_URL}
+    image: ghcr.io/cloudstar2077/conduit-frontend:latest
     container_name: angular_frontend
     restart: on-failure
     env_file:
