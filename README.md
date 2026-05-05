@@ -10,6 +10,7 @@ This guide explains how to Setup a CI/CD pipeline with GitHub Actions and GitHub
 
 ## Prerequisites
 
+- SSH
 - Docker (version 20.10 or higher) installed
 - Git installed
 
@@ -24,22 +25,27 @@ Before building the docker image
 
 ## Usage
 
-The project uses a fully automated CI/CD pipeline based on GitHub Actions, which is triggered with every push to the main branch. The pipeline consists of two consecutive jobs.
+The project uses a fully automated CI/CD pipeline based on GitHub Actions, which is triggered with every push to the main branch. The pipeline is composed of two back-to-back jobs.
 Before the first use, several prerequisites had to be configured. A dedicated SSH key (`github-actions-key`) was generated on the production server, and its public key was added to the server’s `authorized_keys` file. This allows the GitHub Actions runner to establish a passwordless SSH connection to the server.
 ```bash
 ssh-keygen -t ed25519 -C "github-actions-key" -f ~/.ssh/github-actions-key && cat ~/.ssh/github-actions-key.pub >> ~/.ssh/authorized_keys
  ```
 For authentication via SSH through GitHub Actions, the permissions of the `.ssh` folder as well as the private and public keys must be set correctly, as SSH rejects insecure file permissions.
 ```bash
-chmod 700 ~/.ssh
+chmod 700 ~/.ssh    
 chmod 600 ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/github-actions-key
 chmod 644 ~/.ssh/github-actions-key.pub
  ```
 
-For access to the GitHub Container Registry, a Personal Access Token (PAT) with the permissions `read:packages` and `write:packages` was also created. To enable `git pull` on the server, a separate Deploy Key was generated and added to the repository under Settings → Deploy Keys, while the SSH configuration on the server was adjusted accordingly.
-All sensitive values were then stored as GitHub Secrets in the repository. These include the private SSH key (`SSH_PRIVATE_KEY`), the server user (`SSH_USER`), the server IP (`SSH_HOST`), the registry token (`GHCR_TOKEN`), the GitHub username (`GHCR_USERNAME`), as well as all application variables such as `DJANGO_SECRET_KEY`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DJANGO_ALLOWED_HOSTS`, `PORT`, and `API_BASE_URL`.
+For access to the GitHub Container Registry, a Personal Access Token (PAT) with the permissions `read:packages` and `write:packages` was also created. 
+`Github Settings --> Developer Settings --> Personal acces tokens`. To enable `git pull` on the server, a separate Deploy Key was generated and added to the repository under `Github Repository Settings --> Deploy Keys`.
+All sensitive values were then stored as GitHub Secrets in the repository. `Github Repository Settings --> Secrets --> Actions --> New repository secret`. These include the private SSH key (`SSH_PRIVATE_KEY`), the server user (`SSH_USER`), the server IP (`SSH_HOST`), the registry token (`GHCR_TOKEN`), the GitHub username (`GHCR_USERNAME`), as well as all application variables such as `DJANGO_SECRET_KEY`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DJANGO_ALLOWED_HOSTS`, `PORT`, and `API_BASE_URL`.
 Additionally, the repository workflow permissions were set to Read and Write so that the `GITHUB_TOKEN` is allowed to push images to the container registry.
+`Github Repository Settings --> Actions --> General --> Workflow Permissions`
+
+
+
 
 Job 1 – Build & Push
 
