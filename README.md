@@ -21,9 +21,15 @@ This guide explains how to Setup a CI/CD pipeline with GitHub Actions and GitHub
 git clone git@github.com:CloudStar2077/Conduit-Deployment.git &&
 cd Conduit-Deployment
  ```
-Before building the docker image
 
 ## Usage
+
+- Clone the repository 
+
+```bash
+git clone git@github.com:CloudStar2077/Conduit-Deployment.git &&
+cd Conduit-Deployment
+  ```
 
 The project uses a fully automated CI/CD pipeline based on GitHub Actions, which is triggered with every push to the main branch. The pipeline is composed of two back-to-back jobs.
 Before the first use, several prerequisites had to be configured. A dedicated SSH key (`github-actions-key`) was generated on the production server, and its public key was added to the server’s `authorized_keys` file. This allows the GitHub Actions runner to establish a passwordless SSH connection to the server.
@@ -43,10 +49,6 @@ For access to the GitHub Container Registry, a Personal Access Token (PAT) with 
 All sensitive values were then stored as GitHub Secrets in the repository. `Github Repository Settings --> Secrets --> Actions --> New repository secret`. These include the private SSH key (`SSH_PRIVATE_KEY`), the server user (`SSH_USER`), the server IP (`SSH_HOST`), the registry token (`GHCR_TOKEN`), the GitHub username (`GHCR_USERNAME`), as well as all application variables such as `DJANGO_SECRET_KEY`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DJANGO_ALLOWED_HOSTS`, `PORT`, and `API_BASE_URL`.
 Additionally the repository's workflow permissions were set to Read and Write so that the GITHUB_TOKEN can be used for authentication with the GitHub Container Registry. `Github Repository Settings --> Actions --> General --> Workflow Permissions`
 
-```bash
-git commit --allow-empty -m "trigger workflow" && git push origin main
- ```
- 
 Job 1 – Build & Push
 
 In the first job, the Docker images for the backend and frontend are built directly on the GitHub Actions runner and then pushed to the GitHub Container Registry (`ghcr.io`).
@@ -60,3 +62,7 @@ If any step fails, the workflow stops with an error, and the deployment is not e
 
 This architecture ensures that the build process does not take place on the production server. The production server is solely responsible for running the finished containers.
 Separating the build and runtime environments increases system stability, reduces the resource load on the production server, improves security, and enables reproducible deployments.
+
+```bash
+git commit --allow-empty -m "trigger workflow" && git push origin main
+ ```
