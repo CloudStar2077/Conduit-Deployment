@@ -63,9 +63,12 @@ If any step fails, the workflow stops with an error, and the deployment is not e
 This architecture ensures that the build process does not take place on the production server. The production server is solely responsible for running the finished containers.
 Separating the build and runtime environments increases system stability, reduces the resource load on the production server, improves security, and enables reproducible deployments.
 
+To start the Workflow go by 
 ```bash
 git commit --allow-empty -m "trigger workflow" && git push origin main
  ```
+In the GitHub Actions UI, you can check if the workflow run was successful. ✅
+
 - Visit the Website and Login
 
 Open a Webbroser and enter the destination
