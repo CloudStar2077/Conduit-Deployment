@@ -31,7 +31,7 @@ git clone git@github.com:CloudStar2077/Conduit-Deployment.git &&
 cd Conduit-Deployment
   ```
 
-The project uses a fully automated CI/CD pipeline based on GitHub Actions, which is triggered with every push to the main branch. The pipeline is composed of two back-to-back jobs.
+This project uses the `deployment.yml` a fully automated CI/CD pipeline based on GitHub Actions, which is triggered with every push to the main branch. The pipeline is composed of two back-to-back jobs.
 Before the first use, several prerequisites had to be configured. A dedicated SSH key (`github-actions-key`) was generated on the production server, and its public key was added to the server’s `authorized_keys` file. This allows the GitHub Actions runner to establish a passwordless SSH connection to the server.
 ```bash
 ssh-keygen -t ed25519 -C "github-actions-key" -f ~/.ssh/github-actions-key && cat ~/.ssh/github-actions-key.pub >> ~/.ssh/authorized_keys
