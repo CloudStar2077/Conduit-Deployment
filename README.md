@@ -46,7 +46,7 @@ chmod 644 ~/.ssh/github-actions-key.pub
 
 For access to the GitHub Container Registry, a Personal Access Token (PAT) with the permissions `read:packages` and `write:packages` was also created. 
 `Github Settings --> Developer Settings --> Personal acces tokens`. To enable `git pull` on the server, a separate Deploy Key was generated and added to the repository under `Github Repository Settings --> Deploy Keys`.
-All sensitive values were then stored as GitHub Secrets in the repository. `Github Repository Settings --> Secrets --> Actions --> New repository secret`. These include the private SSH key (`SSH_PRIVATE_KEY`), the server user (`SSH_USER`), the server IP (`SSH_HOST`), the registry token (`GHCR_TOKEN`), the GitHub username (`GHCR_USERNAME`), as well as all application variables such as `DJANGO_SECRET_KEY`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DJANGO_ALLOWED_HOSTS`, `PORT`, and `API_BASE_URL`.
+All sensitive values were then stored as GitHub Secrets in the repository. `Github Repository Settings --> Secrets --> Actions --> New repository secret`. These include the private SSH key (`SSH_PRIVATE_KEY`), the server user (`SSH_USER`), the server IP (`SSH_HOST`), the registry token (`GHCR_TOKEN`), the GitHub username (`GHCR_USERNAME`), as well as all application variables such as `DJANGO_SECRET_KEY`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DJANGO_ALLOWED_HOSTS`, `PORT`, and the `API_BASE_URL`(Host IP).
 Additionally the repository's workflow permissions were set to Read and Write so that the Github_Token can be used for authentication with the GitHub Container Registry. `Github Repository Settings --> Actions --> General --> Workflow Permissions`
 
 Job 1 – Build & Push
@@ -57,7 +57,7 @@ During build time, the frontend image receives the API URL as a build argument s
 Job 2 – Deploy
 
 The second job handles deployment to the production server and only starts after Job 1 has completed successfully.
-Using the SSH connection, the latest version of the repository is first pulled onto the server. Afterwards, the `.env` file is regenerated using the GitHub Secrets. Then, the previously built images are pulled from the container registry, and the application is started in detached mode using Docker Compose.
+Using the SSH connection, the latest version of the repository is first pulled onto the server. Afterwards, the `.env` file is regenerated using the GitHub Secrets. Then the previously built images are pulled from the container registry, and the application is started in detached mode using Docker Compose.
 If any step fails, the workflow stops with an error, and the deployment is not executed.
 
 This architecture ensures that the build process does not take place on the production server. The production server is solely responsible for running the finished containers.
@@ -65,4 +65,10 @@ Separating the build and runtime environments increases system stability, reduce
 
 ```bash
 git commit --allow-empty -m "trigger workflow" && git push origin main
+ ```
+- Visit the Website and Login
+
+Open a Webbroser and enter the destination
+```bash
+<HostIp>:<HostPort>
  ```
