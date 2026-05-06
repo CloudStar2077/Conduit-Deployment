@@ -41,7 +41,7 @@ Additionally set the repository's workflow permissions to Read and Write. `Githu
 
 To start the Workflow 
 ```bash
-git commit --allow-empty -m "trigger workflow" && git push origin main  # --allow-empty is used because there are noch changes in the repo
+git commit --allow-empty -m "trigger workflow" && git push origin main  
  ```
 In the GitHub Actions UI, you can check if the workflow run was successful
 
