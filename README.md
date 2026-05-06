@@ -46,7 +46,7 @@ chmod 644 ~/.ssh/github-actions-key.pub
 
 For access to the GitHub Container Registry, a Personal Access Token (PAT) with the permissions `read:packages` and `write:packages` was also created. 
 `Github Settings --> Developer Settings --> Personal acces tokens`. To enable `git pull` on the server, a separate Deploy Key was generated and added to the repository under `Github Repository Settings --> Deploy Keys`.
-All sensitive values were then stored as GitHub Secrets in the repository. `Github Repository Settings --> Secrets --> Actions --> New repository secret`. These include the private SSH key (`SSH_PRIVATE_KEY`), the server user (`SSH_USER`), the server IP (`SSH_HOST`), the registry token (`GHCR_TOKEN`), the GitHub username (`GHCR_USERNAME`), as well as all application variables such as `DJANGO_SECRET_KEY`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DJANGO_ALLOWED_HOSTS`, `PORT`, and the `API_BASE_URL`(Host IP).
+All sensitive values were then stored as GitHub Secrets in the repository. `Github Repository Settings --> Secrets --> Actions --> New repository secret`. These include the private SSH github-actions-key (`SSH_PRIVATE_KEY`), the server user (`SSH_USER`), the server IP (`SSH_HOST`), the registry token (`GHCR_TOKEN`), the GitHub username (`GHCR_USERNAME`), as well as all application variables such as `DJANGO_SECRET_KEY`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DJANGO_ALLOWED_HOSTS`, `PORT`, and the `API_BASE_URL`(Host IP).
 Additionally the repository's workflow permissions were set to Read and Write so that the Github_Token can be used for authentication with the GitHub Container Registry. `Github Repository Settings --> Actions --> General --> Workflow Permissions`
 
 Job 1 – Build & Push
