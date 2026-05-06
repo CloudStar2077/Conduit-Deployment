@@ -42,9 +42,9 @@ To start the Workflow
 ```bash
 git commit --allow-empty -m "trigger workflow" && git push origin main  
  ```
-In the GitHub Actions UI, you can check if the workflow run was successful
+In the GitHub Actions UI, you can check if the workflow run was successful ✅.
 
-Visit the Conduit Website and Login
+Visit the Conduit Website and Login.
 
 Open a Webbroser and enter the destination
 ```bash
