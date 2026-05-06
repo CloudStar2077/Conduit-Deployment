@@ -34,7 +34,7 @@ chmod 644 ~/.ssh/github-actions-key.pub
  ```
 Then add your github-actions private key and the other sensitive values in the Github Ui.
 Create a Personal Access Token (PAT) with the permissions `read:packages` and `write:packages`. 
-`Github Settings --> Developer Settings --> Personal acces tokens`. To enable `git pull` on the server, add a separate Deploy-Key to the repository under `Github Repository Settings --> Deploy Keys`.
+`Github Settings --> Developer Settings --> Personal acces tokens`. To enable `git pull` on the server, add a separate Deploy-Key to thesolely repository under `Github Repository Settings --> Deploy Keys`.
 `Github Repository Settings --> Secrets --> Actions --> New repository secret`. These include the private SSH github-actions-key (`SSH_PRIVATE_KEY`), the server user (`SSH_USER`), the server IP (`SSH_HOST`), the Personal Acces Token (`GHCR_TOKEN`), the GitHub username (`GHCR_USERNAME`), as well as all application variables such as `DJANGO_SECRET_KEY`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DJANGO_ALLOWED_HOSTS`, `PORT`, and the `API_BASE_URL`(Host IP).
 Set the repository's workflow permissions to Read and Write `Github Repository Settings --> Actions --> General --> Workflow Permissions`.
 
@@ -92,7 +92,7 @@ The second job handles deployment to the production server and only starts after
 Using the SSH connection, the latest version of the repository is first pulled onto the server. Afterwards, the `.env` file is regenerated using the GitHub Secrets. Then the previously built images are pulled from the container registry, and the application is started in detached mode using Docker Compose.
 If any step fails, the workflow stops with an error, and the deployment is not executed.
 
-This architecture ensures that the build process does not take place on the production server. The production server is solely responsible for running the finished containers.
+This architecture ensures that the build process does not take place on the production server. The production server is only responsible for running the finished containers.
 Separating the build and runtime environments increases system stability, reduces the resource load on the production server, improves security, and enables reproducible deployments.
 
 To start the Workflow go by 
