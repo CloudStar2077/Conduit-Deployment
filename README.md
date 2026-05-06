@@ -37,7 +37,6 @@ Create a Personal Access Token (PAT) with the permissions `read:packages` and `w
 `Github Settings --> Developer Settings --> Personal acces tokens`. To enable `git pull` on the server, add a separate Deploy-Key to the repository under `Github Repository Settings --> Deploy Keys`.
 `Github Repository Settings --> Secrets --> Actions --> New repository secret`. These include the private SSH github-actions-key (`SSH_PRIVATE_KEY`), the server user (`SSH_USER`), the server IP (`SSH_HOST`), the Personal Acces Token (`GHCR_TOKEN`), the GitHub username (`GHCR_USERNAME`), as well as all application variables such as `DJANGO_SECRET_KEY`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DJANGO_ALLOWED_HOSTS`, `PORT`, and the `API_BASE_URL`(Host IP).
 Set the repository's workflow permissions to Read and Write `Github Repository Settings --> Actions --> General --> Workflow Permissions`.
-Additionally set the repository's workflow permissions to Read and Write. `Github Repository Settings --> Actions --> General --> Workflow Permissions`
 
 To start the Workflow 
 ```bash
