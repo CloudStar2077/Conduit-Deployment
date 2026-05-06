@@ -21,6 +21,35 @@ This guide explains how to Setup a CI/CD pipeline with GitHub Actions and GitHub
 git clone git@github.com:CloudStar2077/Conduit-Deployment.git &&
 cd Conduit-Deployment
  ```
+Before you can start the Workflow you first have to generate a SSH Github-Actions-Key and add it to your authorized_keys
+```bash
+ssh-keygen -t ed25519 -C "github-actions-key" -f ~/.ssh/github-actions-key && cat ~/.ssh/github-actions-key.pub >> ~/.ssh/authorized_keys
+ ```
+Set file permissions 
+```bash
+chmod 700 ~/.ssh                                  
+chmod 600 ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/github-actions-key
+chmod 644 ~/.ssh/github-actions-key.pub
+ ```
+Then add your github-actions private key and the other sensitive values in the Github Ui.
+Create a Personal Access Token (PAT) with the permissions `read:packages` and `write:packages`. 
+`Github Settings --> Developer Settings --> Personal acces tokens`. To enable `git pull` on the server, add a separate Deploy-Key to the repository under `Github Repository Settings --> Deploy Keys`.
+`Github Repository Settings --> Secrets --> Actions --> New repository secret`. These include the private SSH github-actions-key (`SSH_PRIVATE_KEY`), the server user (`SSH_USER`), the server IP (`SSH_HOST`), the Personal Acces Token (`GHCR_TOKEN`), the GitHub username (`GHCR_USERNAME`), as well as all application variables such as `DJANGO_SECRET_KEY`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DJANGO_ALLOWED_HOSTS`, `PORT`, and the `API_BASE_URL`(Host IP).
+Set the repository's workflow permissions to Read and Write `Github Repository Settings --> Actions --> General --> Workflow Permissions`
+
+To start the Workflow 
+```bash
+git commit --allow-empty -m "trigger workflow" && git push origin main
+ ```
+In the GitHub Actions UI, you can check if the workflow run was successful
+
+Visit the Conduit Website and Login
+
+Open a Webbroser and enter the destination
+```bash
+<HostIp>:<HostPort>
+ ```
 
 ## Usage
 
