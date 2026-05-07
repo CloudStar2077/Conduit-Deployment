@@ -63,7 +63,7 @@ jobs:
             echo "API_BASE_URL=${{ secrets.API_BASE_URL }}" >> .env
             echo "IMAGE_TAG=${{ github.sha }}" >> .env
 
-            echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
+            echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u cloudstar2077 --password-stdin
 
             docker compose down
             docker compose pull
