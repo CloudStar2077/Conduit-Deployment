@@ -21,7 +21,7 @@ This guide explains how to Setup a CI/CD pipeline with GitHub Actions and GitHub
 git clone git@github.com:CloudStar2077/Conduit-Deployment.git &&
 cd Conduit-Deployment
  ```
-Before you can start the Workflow you first have to generate a SSH Github-Actions-Key and add it to your authorized_keys
+Before you can start the Workflow you first have to generate a SSH Github-Actions-Key on your server and add it to the authorized_keys file.
 ```bash
 ssh-keygen -t ed25519 -C "github-actions-key" -f ~/.ssh/github-actions-key && cat ~/.ssh/github-actions-key.pub >> ~/.ssh/authorized_keys
  ```
@@ -32,11 +32,16 @@ chmod 600 ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/github-actions-key
 chmod 644 ~/.ssh/github-actions-key.pub
  ```
-Then add your github-actions private key and the other sensitive values in the Github Ui.
-Create a Personal Access Token (PAT) with the permissions `read:packages` and `write:packages`. 
-`Github Settings --> Developer Settings --> Personal acces tokens`. To enable `git pull` on the server, add a separate Deploy-Key to thesolely repository under `Github Repository Settings --> Deploy Keys`.
-`Github Repository Settings --> Secrets --> Actions --> New repository secret`. These include the private SSH github-actions-key (`SSH_PRIVATE_KEY`), the server user (`SSH_USER`), the server IP (`SSH_HOST`), the Personal Acces Token (`GHCR_TOKEN`), the GitHub username (`GHCR_USERNAME`), as well as all application variables such as `DJANGO_SECRET_KEY`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DJANGO_ALLOWED_HOSTS`, `PORT`, and the `API_BASE_URL`(Host IP).
-Set the repository's workflow permissions to Read and Write `Github Repository Settings --> Actions --> General --> Workflow Permissions`.
+Then add your GitHub Actions private key and all other sensitive values in the GitHub UI. This includes the private SSH GitHub Actions key `(SSH_PRIVATE_KEY)`, the server user `(SSH_USER)`, the server IP `(SSH_HOST)`, the Personal Access Token `(GHCR_TOKEN)`, the GitHub username `(GHCR_USERNAME)`, as well as application variables such as `DJANGO_SECRET_KEY`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DJANGO_ALLOWED_HOSTS`, `PORT`, and `API_BASE_URL`(Host IP).
+Create a Personal Access Token (PAT) with the permissions `read:packages` and `write:packages`. Also add a separate Deploy Key to the repository to allow pushing from the server to GitHub.
+Finally, set the repository's workflow permissions to Read and Write.
+```bash
+Github Settings --> Developer Settings --> Personal acces tokens
+Github Repository Settings --> Deploy Keys
+Github Repository Settings --> Secrets --> Actions --> New repository secret
+Github Repository Settings --> Actions --> General --> Workflow Permissions
+```
+
 
 To start the Workflow 
 ```bash
@@ -61,7 +66,7 @@ cd Conduit-Deployment
   ```
 
 This project uses the `deployment.yml` a fully automated CI/CD pipeline based on GitHub Actions, which is triggered with every push to the main branch. The pipeline is composed of two back-to-back jobs.
-Before the first use, several prerequisites had to be configured. A dedicated SSH key (`github-actions-key`) was generated on the production server, and its public key was added to the server’s `authorized_keys` file. This allows the GitHub Actions runner to establish a passwordless SSH connection to the server.
+Before the first use, several prerequisites had to be configured. A dedicated SSH key (`github-actions-key`) was generated on the production server, and its public key was added to the servers `authorized_keys` file. This allows the GitHub Actions runner to establish a passwordless SSH connection to the server.
 ```bash
 ssh-keygen -t ed25519 -C "github-actions-key" -f ~/.ssh/github-actions-key && cat ~/.ssh/github-actions-key.pub >> ~/.ssh/authorized_keys
  ```
@@ -74,12 +79,18 @@ chmod 644 ~/.ssh/github-actions-key.pub
  ```
 
 For access to the GitHub Container Registry, a Personal Access Token (PAT) with the permissions `read:packages` and `write:packages` was also created. 
-`Github Settings --> Developer Settings --> Personal acces tokens`. To enable `git pull` on the server, a separate Deploy Key was generated and added to the repository under `Github Repository Settings --> Deploy Keys`.
-All sensitive values were then stored as GitHub Secrets in the repository. `Github Repository Settings --> Secrets --> Actions --> New repository secret`. These include the private SSH github-actions-key (`SSH_PRIVATE_KEY`), the server user (`SSH_USER`), the server IP (`SSH_HOST`), the registry token (`GHCR_TOKEN`), the GitHub username (`GHCR_USERNAME`), as well as all application variables such as `DJANGO_SECRET_KEY`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DJANGO_ALLOWED_HOSTS`, `PORT`, and the `API_BASE_URL`(Host IP).
-
+All sensitive values were then stored as GitHub Secrets in the repository. These include the private SSH github-actions-key (`SSH_PRIVATE_KEY`), the server user (`SSH_USER`), the server IP (`SSH_HOST`), the registry token (`GHCR_TOKEN`), the GitHub username (`GHCR_USERNAME`), as well as all application variables such as `DJANGO_SECRET_KEY`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DJANGO_ALLOWED_HOSTS`, `PORT`, and the `API_BASE_URL`(Host IP).
+```bash
+Github Settings --> Developer Settings --> Personal acces tokens
+Github Repository Settings --> Deploy Keys
+Github Repository Settings --> Secrets --> Actions --> New repository secret
+```
 <img width="1137" height="915" alt="2026-04-13_19-42" src="https://github.com/user-attachments/assets/4190ec6a-f715-4112-a75b-ecebe5717628" />
 
-Additionally the repository's workflow permissions were set to Read and Write so that the Github_Token can be used for authentication with the GitHub Container Registry. `Github Repository Settings --> Actions --> General --> Workflow Permissions`
+Additionally the repository's workflow permissions were set to Read and Write so that the Github_Token can be used for authentication with the GitHub Container Registry. 
+```bash
+Github Repository Settings --> Actions --> General --> Workflow Permissions
+```
 
 Job 1 – Build & Push
 
