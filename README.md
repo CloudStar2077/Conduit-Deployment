@@ -102,7 +102,7 @@ During build time, the frontend image receives the API URL as a build argument s
 Job 2 – Deploy
 
 The second job handles deployment to the production server and only starts after Job 1 has completed successfully.
-Using the SSH connection, the latest version of the repository is first pulled onto the server. Afterwards, the `.env` file is regenerated using the GitHub Secrets. Then the previously built images are pulled from the container registry, and the application is started in detached mode using Docker Compose.
+Afterwards, the `.env` file is regenerated using the GitHub Secrets. Then the previously built images are pulled from the container registry, and the application is started in detached mode using Docker Compose.
 If any step fails, the workflow stops with an error, and the deployment is not executed.
 
 This architecture ensures that the build process does not take place on the production server. The production server is only responsible for running the finished containers.
