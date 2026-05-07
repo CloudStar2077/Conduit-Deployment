@@ -36,6 +36,7 @@ Then add your GitHub Actions private key and all other sensitive values in the G
 Create a Personal Access Token (PAT) with the permissions `read:packages` and `write:packages`. Also add a separate Deploy Key to the repository to allow pushing from the server to GitHub.
 Finally, set the repository's workflow permissions to Read and Write.
 ```bash
+### Github UI Example ###
 Github Settings --> Developer Settings --> Personal acces tokens
 Github Repository Settings --> Deploy Keys
 Github Repository Settings --> Secrets --> Actions --> New repository secret
