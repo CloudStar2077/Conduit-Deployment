@@ -82,6 +82,7 @@ chmod 644 ~/.ssh/github-actions-key.pub
 For access to the GitHub Container Registry, a Personal Access Token (PAT) with the permissions `read:packages` and `write:packages` was also created. 
 All sensitive values were then stored as GitHub Secrets in the repository. These include the private SSH github-actions-key (`SSH_PRIVATE_KEY`), the server user (`SSH_USER`), the server IP (`SSH_HOST`), the registry token (`GHCR_TOKEN`), the GitHub username (`GHCR_USERNAME`), as well as all application variables such as `DJANGO_SECRET_KEY`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DJANGO_ALLOWED_HOSTS`, `PORT`, and the `API_BASE_URL`(Host IP).
 ```bash
+### Github UI Example ###
 Github Settings --> Developer Settings --> Personal acces tokens
 Github Repository Settings --> Deploy Keys
 Github Repository Settings --> Secrets --> Actions --> New repository secret
