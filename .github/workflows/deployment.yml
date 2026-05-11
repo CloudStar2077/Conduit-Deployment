@@ -91,10 +91,11 @@ jobs:
 
             cd /home/Conduit-Deployment
 
-            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
+            docker login ghcr.io --username cloudstar2077 --password ${{ secrets.GHCR_TOKEN }}
 
             docker compose pull
             docker compose down
             docker image prune -f
             docker compose up -d
             docker compose ps
+            
