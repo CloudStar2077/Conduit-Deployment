@@ -1,0 +1,49 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: postgres_db
+    restart: on-failure
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - app-network
+
+  backend:
+    image: ghcr.io/cloudstar2077/conduit-backend:${IMAGE_TAG}
+    container_name: django_backend
+    restart: on-failure
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  frontend:
+    image: ghcr.io/cloudstar2077/conduit-frontend:${IMAGE_TAG}
+    container_name: angular_frontend
+    restart: on-failure
+    env_file:
+      - .env
+    ports:
+      - "${PORT}:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge
