@@ -1,8 +1,0 @@
-Django==1.11.29
-django-cors-headers==2.4.0
-django-extensions==2.1.9
-djangorestframework==3.9.4
-PyJWT==1.7.1
-six==1.16.0
-gunicorn==19.10.0
-psycopg2==2.8.6
